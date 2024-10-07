@@ -1,4 +1,5 @@
 const express = require("express")
+const forceSsl = require('express-force-ssl');
 const mongoose = require("mongoose")
 const cors = require("cors")
 const bcrypt = require("bcryptjs");
@@ -9,12 +10,19 @@ const path = require('path');
 
 const app = express()
 app.use(express.json())
-app.use(cors())
+app.use(forceSsl);
+app.use(cors({
+    origin: "http://localhost:5173", // The URL of your Vite app
+    methods: ["GET", "POST"],
+    credentials: true // If you need to handle cookies/auth tokens
+}));
 
-mongoose.connect("mongodb+srv://st10066882:GigaChad01@mycluster.g7hijnw.mongodb.net/?retryWrites=true&w=majority&appName=MyCluster")
-    .then(() => console.log("Connected to MongoDB successfully!"))
-    .catch(err => console.error("Failed to connect to MongoDB:", err));
-//mongoose.connect("mongodb+srv://st10082068:yFTZOzGaZTsRaq7r@cluster0.70zzob1.mongodb.net/");
+if (process.env.NODE_ENV === 'production') {
+    app.use(forceSsl);  // Force SSL in production
+  }
+  
+
+mongoose.connect("mongodb+srv://st10082068:yFTZOzGaZTsRaq7r@cluster0.70zzob1.mongodb.net/");
 
 // Load your SSL certificate and key
 const sslOptions = {
@@ -32,9 +40,9 @@ app.post('/register', async (req, res) => {
     const { name, surname, email, password, confirmPassword, id } = req.body;
 
     // Check if passwords match
-    if (password !== confirmPassword) {
+    /*if (password !== confirmPassword) {
         return res.status(400).json({ message: "Passwords do not match!" });
-    }
+    }*/
     try {
         // Check if the user already exists
         const existingUser = await UserModel.findOne({ email });
@@ -93,10 +101,10 @@ app.post("/login", async (req, res) => {
 });
 
 // Create HTTPS server
-https.createServer(sslOptions, app).listen(5173, () => {
-    console.log("HTTPS server is running on port 5173!");
-});
+/*http.createserver(sslOptions, app).listen(3000, () => {
+    console.log("HTTPS server is running on port 3000!");
+});*/
 
-/*app.listen(3000, () => {
+app.listen(3000, () => {
     console.log("server is running!")
 });*/
