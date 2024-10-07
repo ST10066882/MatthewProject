@@ -55,19 +55,28 @@ function Register() {
             name, surname, email, password, confirmPassword, id
         })
             .then(result => {
-                console.log(result)
-                navigate('/login')
+                console.log(result);
+                navigate('/login');
             })
             .catch(err => {
-                if (err.response && err.response.data.message) {
-                    // Display the error message from the server
-                    setError(err.response.data.message);
+                let errorMessage = 'An error occurred'; // Default message
+                
+                // Check if the error is a response from the server
+                if (err.response) {
+                    // The request was made and the server responded with a status code
+                    errorMessage = `Error ${err.response.status}: ${err.response.data.message || 'Unknown error occurred.'}`;
+                } else if (err.request) {
+                    // The request was made but no response was received
+                    errorMessage = 'No response received from the server. Please check your connection and try again.';
                 } else {
-                    // Fallback error message
-                    setError(`An error occurred: ${err.message}`)
-                    console.error('Error during user registration:', err);
+                    // Something happened in setting up the request that triggered an Error
+                    errorMessage = `Error: ${err.message}. Please try again later.`;
                 }
+        
+                console.error('Error during user registration:', err);
+                setError(errorMessage); // Set the detailed error message
             });
+        
     }
 
     return (

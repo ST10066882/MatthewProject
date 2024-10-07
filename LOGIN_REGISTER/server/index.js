@@ -11,7 +11,10 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 
-mongoose.connect("mongodb+srv://st10082068:yFTZOzGaZTsRaq7r@cluster0.70zzob1.mongodb.net/");
+mongoose.connect("mongodb+srv://st10066882:GigaChad01@mycluster.g7hijnw.mongodb.net/?retryWrites=true&w=majority&appName=MyCluster")
+    .then(() => console.log("Connected to MongoDB successfully!"))
+    .catch(err => console.error("Failed to connect to MongoDB:", err));
+//mongoose.connect("mongodb+srv://st10082068:yFTZOzGaZTsRaq7r@cluster0.70zzob1.mongodb.net/");
 
 // Load your SSL certificate and key
 const sslOptions = {
@@ -90,10 +93,10 @@ app.post("/login", async (req, res) => {
 });
 
 // Create HTTPS server
-/*http.createserver(sslOptions, app).listen(3000, () => {
-    console.log("HTTPS server is running on port 3000!");
-});*/
-
-app.listen(3000, () => {
-    console.log("server is running!")
+https.createServer(sslOptions, app).listen(5173, () => {
+    console.log("HTTPS server is running on port 5173!");
 });
+
+/*app.listen(3000, () => {
+    console.log("server is running!")
+});*/
