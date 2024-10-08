@@ -1,4 +1,5 @@
 const express = require("express")
+const forceSsl = require('express-force-ssl');
 const mongoose = require("mongoose")
 const cors = require("cors")
 const bcrypt = require("bcryptjs");
@@ -9,18 +10,19 @@ const path = require('path');
 
 const app = express()
 app.use(express.json())
+app.use(forceSsl);
 app.use(cors({
-    origin: "http://localhost:5173", // The URL of your Vite app
+    origin: "https://localhost:5173", // The URL of your Vite app
     methods: ["GET", "POST"],
     credentials: true // If you need to handle cookies/auth tokens
 }));
 
-
 if (process.env.NODE_ENV === 'production') {
     app.use(forceSsl);  // Force SSL in production
   }
-mongoose.connect("mongodb+srv://st10082068:yFTZOzGaZTsRaq7r@cluster0.70zzob1.mongodb.net/");
+  
 
+mongoose.connect("mongodb+srv://st10082068:yFTZOzGaZTsRaq7r@cluster0.70zzob1.mongodb.net/");
 
 const generateAccountNumber = () => {
     // Generate a random 10-digit account number (or any format you prefer)
@@ -32,9 +34,9 @@ app.post('/register', async (req, res) => {
     const { name, surname, email, password, confirmPassword, id } = req.body;
 
     // Check if passwords match
-    if (password !== confirmPassword) {
+    /*if (password !== confirmPassword) {
         return res.status(400).json({ message: "Passwords do not match!" });
-    }
+    }*/
     try {
         // Check if the user already exists
         const existingUser = await UserModel.findOne({ email });
@@ -92,15 +94,16 @@ app.post("/login", async (req, res) => {
     }
 });
 
-const key= fs.readFileSync('./keys/privatekey.pem');
-const cert= fs.readFileSync('./keys/certificate.pem');
 
-// Start the HTTPS server
+    const key= fs.readFileSync('./keys/privatekey.pem');
+    const cert= fs.readFileSync('./keys/certificate.pem');
+
+  // Start the HTTPS server
 https.createServer({key,cert}, app).listen(3000, () => {
-console.log("HTTPS server is running on port 3000");
-});
+    console.log("HTTPS server is running on port 3000");
+  });
 
-
+  
 /*app.listen(3000, () => {
-console.log("server is running!")
+    console.log("server is running!")
 });*/
