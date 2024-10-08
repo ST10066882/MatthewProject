@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Card, CardContent, Typography } from '@mui/material';
 
 const BankingDetails = () => {
   const [accountDetails, setAccountDetails] = useState({
@@ -11,7 +12,7 @@ const BankingDetails = () => {
     // Fetch user banking details
     const fetchBankingDetails = async () => {
       try {
-        const response = await axios.get('/api/user/banking-details'); // Adjust the endpoint accordingly
+        const response = await axios.get('/api/user/banking-details'); // endpoint
         setAccountDetails(response.data);
       } catch (error) {
         console.error('Error fetching banking details', error);
@@ -22,22 +23,18 @@ const BankingDetails = () => {
   }, []);
 
   return (
-    <div style={styles.bankDetails}>
-      <h3>Banking Details</h3>
-      <p>
-        <strong>Current Acc No:</strong> {accountDetails.accountNumber} <br />
-        <strong>Available Bal:</strong> ${accountDetails.availableBalance}
-      </p>
-    </div>
+    <Card sx={{ backgroundColor: '#ffffff', color: '#2c3e50', border: '1px solid #3498db', mb: 4 }}> {/* White background with light blue border */}
+      <CardContent>
+        <Typography variant="h5" sx={{ color: '#3498db' }} gutterBottom> {/* Light blue heading */}
+          Banking Details
+        </Typography>
+        <Typography variant="body1">
+          <strong>Current Acc No:</strong> {accountDetails.accountNumber} <br />
+          <strong>Available Bal:</strong> ${accountDetails.availableBalance}
+        </Typography>
+      </CardContent>
+    </Card>
   );
-};
-
-const styles = {
-  bankDetails: {
-    border: '2px dashed blue',
-    padding: '10px',
-    marginBottom: '20px',
-  },
 };
 
 export default BankingDetails;

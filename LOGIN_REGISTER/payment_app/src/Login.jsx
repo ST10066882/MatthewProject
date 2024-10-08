@@ -32,12 +32,12 @@ function Login() {
       width: "100vw",
     },
     formContainer: {
-      flex: 1, // Takes up 50% of the width
+      flex: 1, 
       display: "flex",
       flexDirection: "column",
       justifyContent: "center",
       alignItems: "center",
-      backgroundColor: "rgba(255, 255, 255, 0.95)", // Optional white background with slight transparency
+      backgroundColor: "rgba(255, 255, 255, 0.95)", 
       padding: "40px",
     },
     formBox: {
@@ -102,7 +102,7 @@ function Login() {
       fontWeight: "500",
     },
     imageContainer: {
-      flex: 1, // Takes up 50% of the width
+      flex: 1, 
       backgroundImage: `url(${loginBackground})`,
       backgroundSize: "cover",
       backgroundPosition: "center",

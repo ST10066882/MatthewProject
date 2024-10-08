@@ -1,66 +1,89 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Box } from '@mui/material';
+import { Drawer, List, ListItemButton, ListItemIcon, ListItemText, Toolbar, Divider, Box, Typography, Avatar } from '@mui/material';
+import HomeIcon from '@mui/icons-material/Home';
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import PaymentIcon from '@mui/icons-material/Payment';
+import LogoutIcon from '@mui/icons-material/Logout';
+import logo from '../assets/images/logo.jpg';  
 
+const drawerWidth = 240;
 
 const Menu = () => {
   const navigate = useNavigate();
 
-  const handleNavigate = (path) => {
-    navigate(path);
-  };
-
   return (
-    <Box style={styles.menu}>
-      <Button 
-        variant="contained" 
-        color="primary" 
-        onClick={() => handleNavigate('/CustomerDashboard')}
-        style={styles.button}
+    <Drawer
+      variant="permanent"
+      sx={{
+        width: drawerWidth,
+        flexShrink: 0,
+        [`& .MuiDrawer-paper`]: { 
+          width: drawerWidth, 
+          boxSizing: 'border-box', 
+          backgroundColor: '#f8f9fa',  // Light gray 
+          paddingTop: '45px',
+        },
+      }}
+    >
+      <Box 
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center', 
+          justifyContent: 'center',
+          padding: '20px 0',
+          textAlign: 'center',
+        }}
       >
-        Home
-      </Button>
-      
-      <Button 
-        variant="contained" 
-        color="primary" 
-        onClick={() => handleNavigate('/transactions')}
-        style={styles.button}
-      >
-        Transactions
-      </Button>
-      <Button 
-        variant="contained" 
-        color="primary" 
-        onClick={() => handleNavigate('/payments')}
-        style={styles.button}
-      >
-        Payments
-      </Button>
-      <Button 
-        variant="contained" 
-        color="primary" 
-        onClick={() => handleNavigate('/')}
-        style={styles.button}
-      >
-        Logout
-      </Button>
-    </Box>
+       
+        <Avatar 
+          src={logo} 
+          sx={{ 
+            width: 100, 
+            height: 100, 
+            border: '2px solid #3498db',  // Light blue border
+            mb: 2  
+          }} 
+        />
+        <Typography variant="h6" sx={{ color: '#2c3e50' }}>  
+          Beepo
+        </Typography>
+        <Typography variant="body2" sx={{ color: '#7f8c8d' }}> 
+          beepo@example.com
+        </Typography>
+      </Box>
+      <Divider sx={{ borderColor: '#3498db' }} />
+      <List>
+        <ListItemButton onClick={() => navigate('/CustomerDashboard')}>
+          <ListItemIcon>
+            <HomeIcon sx={{ color: '#3498db' }} /> 
+          </ListItemIcon>
+          <ListItemText primary="Home" sx={{ color: '#2c3e50' }} /> 
+        </ListItemButton>
+        <ListItemButton onClick={() => navigate('/transactions')}>
+          <ListItemIcon>
+            <AccountBalanceWalletIcon sx={{ color: '#3498db' }} />
+          </ListItemIcon>
+          <ListItemText primary="Transactions" sx={{ color: '#2c3e50' }} />
+        </ListItemButton>
+        <ListItemButton onClick={() => navigate('/payments')}>
+          <ListItemIcon>
+            <PaymentIcon sx={{ color: '#3498db' }} />
+          </ListItemIcon>
+          <ListItemText primary="Payments" sx={{ color: '#2c3e50' }} />
+        </ListItemButton>
+        <ListItemButton onClick={() => navigate('/')}>
+          <ListItemIcon>
+            <LogoutIcon sx={{ color: '#3498db' }} />
+          </ListItemIcon>
+          <ListItemText primary="Logout" sx={{ color: '#2c3e50' }} />
+        </ListItemButton>
+      </List>
+    </Drawer>
   );
 };
 
-const styles = {
-  menu: {
-    border: '2px solid blue', // Solid border
-    padding: '10px',
-    width: '200px',
-    display: 'flex',
-    flexDirection: 'column', // Arrange buttons in a column
-    gap: '10px', // Space between buttons
-  },
-  button: {
-    width: '100%', // Make buttons take full width
-  },
-};
-
 export default Menu;
+
+

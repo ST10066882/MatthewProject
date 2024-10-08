@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import registerBackground from "./assets/images/login-background.jpg"; // Import the image
+import registerBackground from "./assets/images/login-background.jpg"; // Import image
 
 function Register() {
   const [name, setName] = useState("");
@@ -81,7 +81,7 @@ function Register() {
       width: "100vw",
     },
     formContainer: {
-      flex: 1, // Takes up 50% of the width
+      flex: 1, 
       display: "flex",
       flexDirection: "column",
       justifyContent: "center",
@@ -151,7 +151,7 @@ function Register() {
       fontWeight: "500",
     },
     imageContainer: {
-      flex: 1, // Takes up 50% of the width
+      flex: 1, 
       backgroundImage: `url(${registerBackground})`,
       backgroundSize: "cover",
       backgroundPosition: "center",

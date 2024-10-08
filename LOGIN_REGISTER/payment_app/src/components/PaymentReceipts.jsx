@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Card, CardContent, Typography, Box, Button } from '@mui/material';
 
 const PaymentReceipts = () => {
   const [receipts, setReceipts] = useState([]);
@@ -8,7 +9,7 @@ const PaymentReceipts = () => {
     // Fetch receipts from the backend
     const fetchReceipts = async () => {
       try {
-        const response = await axios.get('https://localhost:3000/payment-receipts'); // Adjust the endpoint accordingly
+        const response = await axios.get('https://localhost:3000/payment-receipts'); //endpoint
         setReceipts(response.data);
       } catch (error) {
         console.error('Error fetching payment receipts', error);
@@ -21,41 +22,38 @@ const PaymentReceipts = () => {
   const handlePayAgain = (receipt) => {
     // Implement the logic to pay again using receipt details
     console.log(`Paying again for: ${receipt.description}`);
-    // You can trigger a payment API call here, based on receipt details.
+  
   };
 
   return (
-    <div style={styles.paymentReceipts}>
-      <h3>Payment Receipts</h3>
-      {receipts.map((receipt, index) => (
-        <div key={index} style={styles.receipt}>
-          <p>{`${receipt.date} - ${receipt.description} - $${receipt.amount}`}</p>
-          <button style={styles.payAgainButton} onClick={() => handlePayAgain(receipt)}>
-            Pay again
-          </button>
-        </div>
-      ))}
-    </div>
+    <Card sx={{ backgroundColor: '#1E1E2C', color: 'white', border: '2px solid #6A0DAD', mb: 4 }}> {/* Dark background with purple border */}
+      <CardContent>
+        <Typography variant="h5" sx={{ color: '#6A0DAD' }} gutterBottom> {/* Purple heading */}
+          Payment Receipts
+        </Typography>
+        {receipts.length > 0 ? (
+          receipts.map((receipt, index) => (
+            <Box key={index} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+              <Typography variant="body2">
+                {`${receipt.date} - ${receipt.description} - $${receipt.amount}`}
+              </Typography>
+              <Button
+                variant="contained"
+                sx={{ backgroundColor: '#3498db', color: 'white' }}  
+                onClick={() => handlePayAgain(receipt)}
+              >
+                Pay Again
+              </Button>
+            </Box>
+          ))
+        ) : (
+          <Typography variant="body2">
+            No receipts found.
+          </Typography>
+        )}
+      </CardContent>
+    </Card>
   );
-};
-
-const styles = {
-  paymentReceipts: {
-    border: '2px dashed blue',
-    padding: '10px',
-  },
-  receipt: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: '10px',
-  },
-  payAgainButton: {
-    padding: '5px 10px',
-    backgroundColor: '#f0f0f0',
-    border: '1px solid #ccc',
-    cursor: 'pointer',
-  },
 };
 
 export default PaymentReceipts;
